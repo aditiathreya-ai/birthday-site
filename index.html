@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Pragna 💖</title>
+<title>HBD PAGGGUU 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Pacifico&display=swap" rel="stylesheet">
 
@@ -17,24 +17,46 @@ body {
     overflow:hidden;
 }
 
-/* TITLE */
-h1{
+ #message{
+  white-space: pre-line;
+  padding: 10px;
+}
+/* intro */
+#intro{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:linear-gradient(135deg,#ffc1cc,#e0bbff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
     font-family:'Pacifico';
-    font-size:2rem;
-    margin-top:40px;
+    font-size:1.5rem;
 }
 
-/* IMAGE */
+/* message */
+#message{
+  white-space: pre-line;
+  padding: 10px;
+}
+
+/* title */
+h1{
+    font-family:'Pacifico';
+    margin-top:30px;
+}
+
+/* image */
 #slide{
     width:280px;
     height:350px;
     object-fit:cover;
     border-radius:20px;
     margin-top:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-/* BUTTON */
+/* button */
 button{
     padding:12px 25px;
     border:none;
@@ -42,40 +64,15 @@ button{
     background:white;
     color:#ff4d6d;
     font-weight:bold;
-    cursor:pointer;
     margin-top:20px;
 }
 
-/* CONFETTI */
-.confetti{
-    position:absolute;
-    width:8px;height:8px;
-    background:red;
-    animation:fall linear infinite;
-}
-@keyframes fall{
-    0%{transform:translateY(-100vh)}
-    100%{transform:translateY(100vh)}
-}
-
-/* HEARTS */
-.heart{
-    position:absolute;
-    color:#ff4d6d;
-    font-size:20px;
-    animation:float 5s linear infinite;
-}
-@keyframes float{
-    0%{transform:translateY(100vh)}
-    100%{transform:translateY(-10vh)}
-}
-
-/* POPUP */
+/* popup */
 #popup{
     display:none;
     position:fixed;
-    top:0;left:0;
-    width:100%;height:100%;
+    width:100%;
+    height:100%;
     background:rgba(0,0,0,0.7);
     justify-content:center;
     align-items:center;
@@ -86,16 +83,45 @@ button{
     padding:20px;
     border-radius:15px;
 }
+
+/* confetti */
+.confetti{
+    position:absolute;
+    animation:fall linear infinite;
+}
+@keyframes fall{
+    0%{transform:translateY(-100vh)}
+    100%{transform:translateY(100vh)}
+}
+
+/* hearts */
+.heart{
+    position:absolute;
+    font-size:20px;
+    animation:float 5s linear infinite;
+}
+@keyframes float{
+    0%{transform:translateY(100vh)}
+    100%{transform:translateY(-10vh)}
+}
+
+/* fade */
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
 </style>
 </head>
 
 <body>
 
-<h1>Happy Birthday My Pondatti 💖✨</h1>
+<div id="intro" onclick="startSite()">Tap anywhere 💖</div>
+
+<h1>Happpyyy Birthdayyy Pondatti 💖✨</h1>
 
 <p id="message"></p>
 
-<button onclick="startCelebration()">Celebrate 🎉</button>
+<button onclick="showPopup()">Surprise 🎁</button>
 
 <br>
 <img id="slide" src="img1.jpg">
@@ -104,31 +130,36 @@ button{
 
 <div id="popup">
   <div class="popup-content">
-    <h2>🎉 SURPRISE 💖</h2>
-    <p>You’re my forever person 🥺✨</p>
+    <h2>🎉 Surprise 💖</h2>
+    <p>I’d choose you in every lifetime to be my bestf, so lucky to have you in my life 😭💕</p>
     <button onclick="closePopup()">Close</button>
   </div>
 </div>
 
 <script>
 
-/* TYPING MESSAGE */
-let text="Happy Birthday to the girl who's been my home since school 💫✨\nWe grew up together... same chaos, same memories 🥺💖\nYou’re my safe place, forever person 💕";
+/* message typing */
+let text= let text=let text=`Happy Birthday to the girl who lights up everyone’s life by just being in it 💫✨
+
+From school drama to adulting, you've come a long way. I'm so proud of you 🥺💖
+
+You're my safe place, forever favourite. I LOVE YOU TO THE MOON AND BACK 💞
+
+It’s always gonna be us over anyone and everyone 💖`;
 let i=0;
 function typeText(){
     if(i<text.length){
         document.getElementById("message").innerHTML += text.charAt(i);
         i++;
-        setTimeout(typeText,30);
+        setTimeout(typeText,25);
     }
 }
 typeText();
 
-/* IMAGES */
+/* slideshow */
 const images=["img1.jpg","img2.jpg","img3.jpg","img4.jpg","img5.jpg","img6.jpg","img7.jpg"];
 let index=0;
 
-/* SLIDESHOW (BEAT SYNC ~1.8s) */
 function startSlideshow(){
     setInterval(()=>{
         index=(index+1)%images.length;
@@ -136,19 +167,21 @@ function startSlideshow(){
     },1800);
 }
 
-/* CONFETTI */
+/* confetti */
 function createConfetti(){
-    for(let i=0;i<300;i++){
+    for(let i=0;i<600;i++){
         let div=document.createElement("div");
         div.className="confetti";
         div.style.left=Math.random()*100+"vw";
         div.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        div.style.width=(Math.random()*6+4)+"px";
+        div.style.height=div.style.width;
         div.style.animationDuration=(Math.random()*3+2)+"s";
         document.body.appendChild(div);
     }
 }
 
-/* HEARTS */
+/* hearts */
 function createHearts(){
     setInterval(()=>{
         let heart=document.createElement("div");
@@ -157,26 +190,77 @@ function createHearts(){
         heart.style.left=Math.random()*100+"vw";
         document.body.appendChild(heart);
         setTimeout(()=>heart.remove(),5000);
-    },500);
+    },400);
 }
 
-/* MAIN START */
-function startCelebration(){
-    let music=document.getElementById("music");
+/* sparkle name */
+function showSparkleName(){
+    const sparkle=document.createElement("div");
+    sparkle.innerText="Pragna ✨";
+    sparkle.style.position="fixed";
+    sparkle.style.top="50%";
+    sparkle.style.left="50%";
+    sparkle.style.transform="translate(-50%,-50%)";
+    sparkle.style.fontSize="2.2rem";
+    sparkle.style.fontFamily="Pacifico";
+    sparkle.style.textShadow="0 0 20px #fff,0 0 40px #ff69b4";
+    sparkle.style.zIndex="25";
+    sparkle.style.animation="fadeIn 1s ease";
+    document.body.appendChild(sparkle);
 
-    music.currentTime=75; // 1:15
+    setTimeout(()=>sparkle.remove(),2500);
+}
+
+/* ending */
+function showEnding(){
+    const ending=document.createElement("div");
+    ending.style.position="fixed";
+    ending.style.top="0";
+    ending.style.left="0";
+    ending.style.width="100%";
+    ending.style.height="100%";
+    ending.style.background="linear-gradient(135deg,#ffc1cc,#e0bbff)";
+    ending.style.display="flex";
+    ending.style.justifyContent="center";
+    ending.style.alignItems="center";
+    ending.style.flexDirection="column";
+    ending.style.zIndex="20";
+    ending.style.animation="fadeIn 1s ease";
+
+    ending.innerHTML=`
+        <h1 style="font-family:Pacifico;">From Aditi 💌</h1>
+        <p>Forever your person 💖</p>
+    `;
+    document.body.appendChild(ending);
+}
+
+/* start site */
+function startSite(){
+    document.getElementById("intro").style.display="none";
+
+    let music=document.getElementById("music");
+    music.currentTime=75;
     music.play();
 
-    setTimeout(()=>music.pause(),16000); // till 1:31
+    setTimeout(()=>{
+        music.pause();
+        showSparkleName();
+
+        setTimeout(()=>{
+            showEnding();
+        },2500);
+
+    },16000);
 
     createConfetti();
     createHearts();
     startSlideshow();
-
-    document.getElementById("popup").style.display="flex";
 }
 
-/* CLOSE POPUP */
+/* popup */
+function showPopup(){
+    document.getElementById("popup").style.display="flex";
+}
 function closePopup(){
     document.getElementById("popup").style.display="none";
 }
