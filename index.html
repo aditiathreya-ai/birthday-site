@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Pragna 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffc1cc, #ffe4e1, #e0bbff);
+  text-align:center;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+#intro {
+  position:fixed;
+  width:100%;height:100%;
+  background: linear-gradient(135deg, #ffc1cc, #e0bbff);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+}
+
+#intro h2 {
+  font-family: 'Pacifico', cursive;
+  animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #fff; }
+  to { text-shadow: 0 0 20px #ff69b4; }
+}
+
+.container { display:none; padding:20px; }
+
+h1 { font-family: 'Pacifico', cursive; }
+
+.typewriter {
+  border-right: 2px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 5s steps(50, end) forwards;
+}
+
+@keyframes typing { from { width:0 } to { width:100% } }
+
+button {
+  margin-top:15px;
+  padding:12px 20px;
+  border:none;
+  border-radius:25px;
+  background:white;
+  color:#ff6f91;
+}
+
+.slideshow img {
+  width:90%;
+  max-width:320px;
+  height:320px;
+  object-fit:cover;
+  border-radius:15px;
+}
+
+canvas { position:fixed; top:0; left:0; pointer-events:none; }
+
+.popup {
+  position:fixed;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.popup-content {
+  background:white;
+  color:#ff6f91;
+  padding:20px;
+  border-radius:20px;
+}
+
+/* smooth ending */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro" onclick="startSite()">
+  <h2>Tap anywhere 💖</h2>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<div class="container" id="main">
+  <h1>Happy Birthday My Pondatti 💖✨</h1>
+
+  <div class="typewriter">
+    Happy Birthday to the girl who’s been my home since school 🫶✨
+  </div>
+
+  <p>
+    We literally grew up together… same chaos, same memories 😭💖<br>
+    You’re my safe place, my forever person ✨<br>
+    Always you and me 💕
+  </p>
+
+  <button onclick="celebrate()">Celebrate 🎊</button>
+
+  <div class="slideshow">
+    <img id="slide" src="img1.jpeg">
+  </div>
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h2>🎁 Surprise Pragna 💖</h2>
+    <p>I’d choose you in every lifetime 😭💕</p>
+  </div>
+</div>
+
+<audio id="music" src="song.mp3"></audio>
+
+<script>
+
+// intro
+function startSite(){
+  document.getElementById("intro").style.display="none";
+  document.getElementById("main").style.display="block";
+}
+
+// slideshow (FIXED jpeg)
+const images=["img1.jpeg","img2.jpeg","img3.jpeg","img4.jpeg","img5.jpeg","img6.jpeg","img7.jpeg"];
+
+let i=0;
+setInterval(()=>{
+  i=(i+1)%images.length;
+  document.getElementById("slide").src=images[i];
+},2000);
+
+// 🎬 CINEMATIC CELEBRATE
+function celebrate(){
+  const music = document.getElementById("music");
+
+  // start music
+  music.currentTime = 75;
+  music.play();
+
+  // confetti build-up
+  setTimeout(() => {
+    startConfetti();
+  }, 300);
+
+  // beat drop popup
+  setTimeout(() => {
+    document.getElementById("popup").style.display="flex";
+  }, 1200);
+
+  // stop music
+  setTimeout(() => {
+    music.pause();
+  }, 16000);
+
+  // ending screen
+  setTimeout(() => {
+    const ending = document.createElement("div");
+    ending.style.position="fixed";
+    ending.style.width="100%";
+    ending.style.height="100%";
+    ending.style.background="linear-gradient(135deg, #ffc1cc, #e0bbff)";
+    ending.style.display="flex";
+    ending.style.justifyContent="center";
+    ending.style.alignItems="center";
+    ending.style.flexDirection="column";
+    ending.style.zIndex=20;
+    ending.style.animation="fadeIn 1s ease";
+
+    ending.innerHTML = `
+      <h1 style="font-family: 'Pacifico', cursive;">From Aditi 💌</h1>
+      <p>Forever your person 💖</p>
+    `;
+
+    document.body.appendChild(ending);
+  }, 17500);
+}
+
+// confetti
+const canvas=document.getElementById('confetti');
+const ctx=canvas.getContext('2d');
+let particles=[];
+
+function resizeCanvas(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+}
+window.addEventListener('resize',resizeCanvas);
+resizeCanvas();
+
+function createParticles(){
+  for(let i=0;i<150;i++){
+    particles.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*6+2,
+      color:`hsl(${Math.random()*360},100%,60%)`
+    });
+  }
+}
+
+function drawParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    ctx.fillStyle=p.color;
+    ctx.fillRect(p.x,p.y,p.r,p.r);
+    p.y+=2;
+    if(p.y>canvas.height) p.y=0;
+  });
+}
+
+function startConfetti(){
+  particles=[];
+  createParticles();
+  setInterval(drawParticles,30);
+}
+
+</script>
+
+</body>
+</html>
