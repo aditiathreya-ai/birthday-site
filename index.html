@@ -9,230 +9,176 @@
 
 <style>
 body {
-  margin:0;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #ffc1cc, #ffe4e1, #e0bbff);
-  text-align:center;
-  color:#fff;
-  overflow-x:hidden;
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#ffc1cc,#e0bbff);
+    text-align:center;
+    color:white;
+    overflow:hidden;
 }
 
-#intro {
-  position:fixed;
-  width:100%;height:100%;
-  background: linear-gradient(135deg, #ffc1cc, #e0bbff);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:10;
+/* TITLE */
+h1{
+    font-family:'Pacifico';
+    font-size:2rem;
+    margin-top:40px;
 }
 
-#intro h2 {
-  font-family: 'Pacifico', cursive;
-  animation: glow 1.5s infinite alternate;
+/* IMAGE */
+#slide{
+    width:280px;
+    height:350px;
+    object-fit:cover;
+    border-radius:20px;
+    margin-top:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-@keyframes glow {
-  from { text-shadow: 0 0 10px #fff; }
-  to { text-shadow: 0 0 20px #ff69b4; }
+/* BUTTON */
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:25px;
+    background:white;
+    color:#ff4d6d;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:20px;
 }
 
-.container { display:none; padding:20px; }
-
-h1 { font-family: 'Pacifico', cursive; }
-
-.typewriter {
-  border-right: 2px solid white;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 0;
-  animation: typing 5s steps(50, end) forwards;
+/* CONFETTI */
+.confetti{
+    position:absolute;
+    width:8px;height:8px;
+    background:red;
+    animation:fall linear infinite;
+}
+@keyframes fall{
+    0%{transform:translateY(-100vh)}
+    100%{transform:translateY(100vh)}
 }
 
-@keyframes typing { from { width:0 } to { width:100% } }
-
-button {
-  margin-top:15px;
-  padding:12px 20px;
-  border:none;
-  border-radius:25px;
-  background:white;
-  color:#ff6f91;
+/* HEARTS */
+.heart{
+    position:absolute;
+    color:#ff4d6d;
+    font-size:20px;
+    animation:float 5s linear infinite;
+}
+@keyframes float{
+    0%{transform:translateY(100vh)}
+    100%{transform:translateY(-10vh)}
 }
 
-.slideshow img {
-  width:90%;
-  max-width:320px;
-  height:320px;
-  object-fit:cover;
-  border-radius:15px;
+/* POPUP */
+#popup{
+    display:none;
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,0.7);
+    justify-content:center;
+    align-items:center;
 }
-
-canvas { position:fixed; top:0; left:0; pointer-events:none; }
-
-.popup {
-  position:fixed;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.7);
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
-
-.popup-content {
-  background:white;
-  color:#ff6f91;
-  padding:20px;
-  border-radius:20px;
-}
-
-/* smooth ending */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.popup-content{
+    background:white;
+    color:black;
+    padding:20px;
+    border-radius:15px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="intro" onclick="startSite()">
-  <h2>Tap anywhere 💖</h2>
-</div>
+<h1>Happy Birthday My Pondatti 💖✨</h1>
 
-<canvas id="confetti"></canvas>
+<p id="message"></p>
 
-<div class="container" id="main">
-  <h1>Happy Birthday Pondatti 💖✨</h1>
+<button onclick="startCelebration()">Celebrate 🎉</button>
 
-  <div class="typewriter">
-    happyyy birthday to the girl who is my most favourite woman in the universe 🫶✨
-  </div>
-
-  <p>
-    From parthana being together… same chaos, same memories 😭💖<br>
-    A lil silence in between <br>
-    You’re my safe place, my forever person ✨<br>
-    My life's so bautiful because of you in it <br>
-    Always you and me 💕
-  </p>
-
-  <button onclick="celebrate()">Celebrate 🎊</button>
-
-  <div class="slideshow">
-    <img id="slide" src="img1.jpg">
-  </div>
-</div>
-
-<div class="popup" id="popup">
-  <div class="popup-content">
-    <h2>🎁 Surprise Pragna 💖</h2>
-    <p>I’d choose you to be my bestf in every lifetime 😭💕</p>
-  </div>
-</div>
+<br>
+<img id="slide" src="img1.jpg">
 
 <audio id="music" src="song.mp3"></audio>
 
+<div id="popup">
+  <div class="popup-content">
+    <h2>🎉 SURPRISE 💖</h2>
+    <p>You’re my forever person 🥺✨</p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+</div>
+
 <script>
 
-// intro
-function startSite(){
-  document.getElementById("intro").style.display="none";
-  document.getElementById("main").style.display="block";
-}
-
-// slideshow (FIXED jpeg)
-const images=["img1.jpg","img2.jpg","img3.jpg","img4.jpg","img5.jpg","img6.jpg","img7.jpg"];
-
+/* TYPING MESSAGE */
+let text="Happy Birthday to the girl who's been my home since school 💫✨\nWe grew up together... same chaos, same memories 🥺💖\nYou’re my safe place, forever person 💕";
 let i=0;
-setInterval(()=>{
-  i=(i+1)%images.length;
-  document.getElementById("slide").src=images[i];
-},2000);
+function typeText(){
+    if(i<text.length){
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeText,30);
+    }
+}
+typeText();
 
-// 🎬 CINEMATIC CELEBRATE
-function celebrate(){
-  const music = document.getElementById("music");
+/* IMAGES */
+const images=["img1.jpg","img2.jpg","img3.jpg","img4.jpg","img5.jpg","img6.jpg","img7.jpg"];
+let index=0;
 
-  // start music
-  music.currentTime = 75;
-  music.play();
+/* SLIDESHOW (BEAT SYNC ~1.8s) */
+function startSlideshow(){
+    setInterval(()=>{
+        index=(index+1)%images.length;
+        document.getElementById("slide").src=images[index];
+    },1800);
+}
 
-  // confetti build-up
-  setTimeout(() => {
-    startConfetti();
-  }, 300);
+/* CONFETTI */
+function createConfetti(){
+    for(let i=0;i<300;i++){
+        let div=document.createElement("div");
+        div.className="confetti";
+        div.style.left=Math.random()*100+"vw";
+        div.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        div.style.animationDuration=(Math.random()*3+2)+"s";
+        document.body.appendChild(div);
+    }
+}
 
-  // beat drop popup
-  setTimeout(() => {
+/* HEARTS */
+function createHearts(){
+    setInterval(()=>{
+        let heart=document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML="💖";
+        heart.style.left=Math.random()*100+"vw";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),5000);
+    },500);
+}
+
+/* MAIN START */
+function startCelebration(){
+    let music=document.getElementById("music");
+
+    music.currentTime=75; // 1:15
+    music.play();
+
+    setTimeout(()=>music.pause(),16000); // till 1:31
+
+    createConfetti();
+    createHearts();
+    startSlideshow();
+
     document.getElementById("popup").style.display="flex";
-  }, 1200);
-
-  // stop music
-  setTimeout(() => {
-    music.pause();
-  }, 16000);
-
-  // ending screen
-  setTimeout(() => {
-    const ending = document.createElement("div");
-    ending.style.position="fixed";
-    ending.style.width="100%";
-    ending.style.height="100%";
-    ending.style.background="linear-gradient(135deg, #ffc1cc, #e0bbff)";
-    ending.style.display="flex";
-    ending.style.justifyContent="center";
-    ending.style.alignItems="center";
-    ending.style.flexDirection="column";
-    ending.style.zIndex=20;
-    ending.style.animation="fadeIn 1s ease";
-
-    ending.innerHTML = `
-      <h1 style="font-family: 'Pacifico', cursive;">From your's truly Adiii 💌</h1>
-      <p>Forever your person 💖</p>
-    `;
-
-    document.body.appendChild(ending);
-  }, 17500);
 }
 
-// confetti
-const canvas=document.getElementById('confetti');
-const ctx=canvas.getContext('2d');
-let particles=[];
-
-function resizeCanvas(){
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-}
-window.addEventListener('resize',resizeCanvas);
-resizeCanvas();
-
-function createParticles(){
-  for(let i=0;i<150;i++){
-    particles.push({
-      x:Math.random()*canvas.width,
-      y:Math.random()*canvas.height,
-      r:Math.random()*6+2,
-      color:`hsl(${Math.random()*360},100%,60%)`
-    });
-  }
-}
-
-function drawParticles(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    ctx.fillStyle=p.color;
-    ctx.fillRect(p.x,p.y,p.r,p.r);
-    p.y+=2;
-    if(p.y>canvas.height) p.y=0;
-  });
-}
-
-function startConfetti(){
-  particles=[];
-  createParticles();
-  setInterval(drawParticles,30);
+/* CLOSE POPUP */
+function closePopup(){
+    document.getElementById("popup").style.display="none";
 }
 
 </script>
