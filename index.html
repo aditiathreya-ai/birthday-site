@@ -3,266 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HBD PAGGGUU 💖</title>
+<title>For Pragna 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Pacifico&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin:0;
-    font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,#ffc1cc,#e0bbff);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffc1cc, #ffe4e1, #e0bbff);
     text-align:center;
     color:white;
     overflow:hidden;
 }
 
- #message{
-  white-space: pre-line;
-  padding: 10px;
-}
 /* intro */
-#intro{
+#intro {
     position:fixed;
     width:100%;
     height:100%;
-    background:linear-gradient(135deg,#ffc1cc,#e0bbff);
     display:flex;
     justify-content:center;
     align-items:center;
-    z-index:10;
     font-family:'Pacifico';
-    font-size:1.5rem;
+    font-size:28px;
 }
 
-/* message */
-#message{
-  white-space: pre-line;
-  padding: 10px;
+/* main */
+#main {
+    display:none;
+    padding-top:60px;
 }
 
-/* title */
-h1{
+h1 {
     font-family:'Pacifico';
-    margin-top:30px;
+    font-size:40px;
 }
 
-/* image */
-#slide{
-    width:280px;
-    height:350px;
-    object-fit:cover;
-    border-radius:20px;
+p {
+    max-width:600px;
+    margin:auto;
+    line-height:1.6;
+    white-space:pre-line;
+}
+
+button {
     margin-top:20px;
-}
-
-/* button */
-button{
     padding:12px 25px;
     border:none;
-    border-radius:25px;
+    border-radius:20px;
     background:white;
     color:#ff4d6d;
     font-weight:bold;
-    margin-top:20px;
+    cursor:pointer;
 }
 
-/* popup */
-#popup{
-    display:none;
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.7);
-    justify-content:center;
-    align-items:center;
+/* images */
+#slideshow {
+    margin-top:30px;
 }
-.popup-content{
-    background:white;
-    color:black;
-    padding:20px;
+
+#slideshow img {
+    width:250px;
     border-radius:15px;
+    display:none;
 }
 
 /* confetti */
-.confetti{
-    position:absolute;
+.confetti {
+    position:fixed;
+    width:8px;
+    height:8px;
+    background:red;
     animation:fall linear infinite;
 }
-@keyframes fall{
-    0%{transform:translateY(-100vh)}
-    100%{transform:translateY(100vh)}
+
+@keyframes fall {
+    to {
+        transform:translateY(100vh);
+    }
 }
 
-/* hearts */
-.heart{
-    position:absolute;
-    font-size:20px;
-    animation:float 5s linear infinite;
-}
-@keyframes float{
-    0%{transform:translateY(100vh)}
-    100%{transform:translateY(-10vh)}
+/* popup */
+#popup {
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background:white;
+    color:#ff4d6d;
+    padding:20px;
+    border-radius:15px;
+    font-weight:bold;
 }
 
-/* fade */
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
-}
 </style>
 </head>
 
 <body>
 
-<div id="intro" onclick="startSite()">Tap anywhere 💖</div>
+<div id="intro">Tap anywhere 💖</div>
 
-<h1>Happpyyy Birthdayyy Pondatti 💖✨</h1>
+<div id="main">
+    <h1>Happpyyy Birthdayyy Pondatti 💖✨</h1>
 
-<p id="message"></p>
+    <p id="message"></p>
 
-<button onclick="showPopup()">Surprise 🎁</button>
+    <button onclick="showSurprise()">Surprise 🎁</button>
 
-<br>
-<img id="slide" src="img1.jpg">
-
-<audio id="music" src="song.mp3"></audio>
-
-<div id="popup">
-  <div class="popup-content">
-    <h2>🎉 Surprise 💖</h2>
-    <p>I’d choose you in every lifetime to be my bestf, so lucky to have you in my life 😭💕</p>
-    <button onclick="closePopup()">Close</button>
-  </div>
+    <div id="slideshow">
+        <img src="img1.jpg">
+        <img src="img2.jpg">
+        <img src="img3.jpg">
+        <img src="img4.jpg">
+        <img src="img5.jpg">
+        <img src="img6.jpg">
+        <img src="img7.jpg">
+    </div>
 </div>
+
+<div id="popup">I LOVE YOU SO MUCH 💖</div>
+
+<audio id="song" src="song.mp3"></audio>
 
 <script>
 
-/* message typing */
-let text= let text=let text=`Happy Birthday to the girl who lights up everyone’s life by just being in it 💫✨
+/* START EXPERIENCE */
+document.addEventListener("click", function () {
+    startExperience();
+}, { once: true });
 
-From school drama to adulting, you've come a long way. I'm so proud of you 🥺💖
+function startExperience() {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("main").style.display = "block";
 
-You're my safe place, forever favourite. I LOVE YOU TO THE MOON AND BACK 💞
-
-It’s always gonna be us over anyone and everyone 💖`;
-let i=0;
-function typeText(){
-    if(i<text.length){
-        document.getElementById("message").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeText,25);
-    }
-}
-typeText();
-
-/* slideshow */
-const images=["img1.jpg","img2.jpg","img3.jpg","img4.jpg","img5.jpg","img6.jpg","img7.jpg"];
-let index=0;
-
-function startSlideshow(){
-    setInterval(()=>{
-        index=(index+1)%images.length;
-        document.getElementById("slide").src=images[index];
-    },1800);
-}
-
-/* confetti */
-function createConfetti(){
-    for(let i=0;i<600;i++){
-        let div=document.createElement("div");
-        div.className="confetti";
-        div.style.left=Math.random()*100+"vw";
-        div.style.background=`hsl(${Math.random()*360},100%,50%)`;
-        div.style.width=(Math.random()*6+4)+"px";
-        div.style.height=div.style.width;
-        div.style.animationDuration=(Math.random()*3+2)+"s";
-        document.body.appendChild(div);
-    }
-}
-
-/* hearts */
-function createHearts(){
-    setInterval(()=>{
-        let heart=document.createElement("div");
-        heart.className="heart";
-        heart.innerHTML="💖";
-        heart.style.left=Math.random()*100+"vw";
-        document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),5000);
-    },400);
-}
-
-/* sparkle name */
-function showSparkleName(){
-    const sparkle=document.createElement("div");
-    sparkle.innerText="Pragna ✨";
-    sparkle.style.position="fixed";
-    sparkle.style.top="50%";
-    sparkle.style.left="50%";
-    sparkle.style.transform="translate(-50%,-50%)";
-    sparkle.style.fontSize="2.2rem";
-    sparkle.style.fontFamily="Pacifico";
-    sparkle.style.textShadow="0 0 20px #fff,0 0 40px #ff69b4";
-    sparkle.style.zIndex="25";
-    sparkle.style.animation="fadeIn 1s ease";
-    document.body.appendChild(sparkle);
-
-    setTimeout(()=>sparkle.remove(),2500);
-}
-
-/* ending */
-function showEnding(){
-    const ending=document.createElement("div");
-    ending.style.position="fixed";
-    ending.style.top="0";
-    ending.style.left="0";
-    ending.style.width="100%";
-    ending.style.height="100%";
-    ending.style.background="linear-gradient(135deg,#ffc1cc,#e0bbff)";
-    ending.style.display="flex";
-    ending.style.justifyContent="center";
-    ending.style.alignItems="center";
-    ending.style.flexDirection="column";
-    ending.style.zIndex="20";
-    ending.style.animation="fadeIn 1s ease";
-
-    ending.innerHTML=`
-        <h1 style="font-family:Pacifico;">From Aditi 💌</h1>
-        <p>Forever your person 💖</p>
-    `;
-    document.body.appendChild(ending);
-}
-
-/* start site */
-function startSite(){
-    document.getElementById("intro").style.display="none";
-
-    let music=document.getElementById("music");
-    music.currentTime=75;
-    music.play();
+    let audio = document.getElementById("song");
+    audio.currentTime = 75; // 1:15
+    audio.play().catch(()=>{});
 
     setTimeout(()=>{
-        music.pause();
-        showSparkleName();
+        audio.pause();
+    },16000); // till 1:31
 
-        setTimeout(()=>{
-            showEnding();
-        },2500);
-
-    },16000);
-
-    createConfetti();
-    createHearts();
     startSlideshow();
+    startConfetti();
+    typeMessage();
 }
 
-/* popup */
-function showPopup(){
-    document.getElementById("popup").style.display="flex";
+/* TYPE MESSAGE */
+let text = `Happy Birthday to the girl who lights up everyone's life just by being in it ✨💫
+From school drama to adulting, you've come a long way. I'm so proud of you 😭💖
+You're my safe place, my forever favourite. I LOVE YOU TO THE MOON AND BACK 💕
+It's always gonna be us over anyone and everyone 💞
+
+— Aditi 💖`;
+
+let i = 0;
+function typeMessage() {
+    if (i < text.length) {
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeMessage, 30);
+    }
 }
-function closePopup(){
-    document.getElementById("popup").style.display="none";
+
+/* SLIDESHOW */
+let images = document.querySelectorAll("#slideshow img");
+let index = 0;
+
+function startSlideshow() {
+    images[0].style.display = "block";
+
+    setInterval(()=>{
+        images[index].style.display="none";
+        index = (index+1)%images.length;
+        images[index].style.display="block";
+    },2000);
+}
+
+/* CONFETTI */
+function startConfetti() {
+    setInterval(()=>{
+        for(let i=0;i<10;i++){
+            let confetti = document.createElement("div");
+            confetti.className="confetti";
+            confetti.style.left=Math.random()*100+"vw";
+            confetti.style.background=`hsl(${Math.random()*360},100%,70%)`;
+            confetti.style.animationDuration=(2+Math.random()*3)+"s";
+            document.body.appendChild(confetti);
+
+            setTimeout(()=>confetti.remove(),5000);
+        }
+    },300);
+}
+
+/* SURPRISE */
+function showSurprise() {
+    let pop = document.getElementById("popup");
+    pop.style.display="block";
+
+    setTimeout(()=>{
+        pop.style.display="none";
+    },3000);
 }
 
 </script>
