@@ -26,20 +26,20 @@ body {
     justify-content:center;
     align-items:center;
     font-family:'Pacifico';
-    font-size:28px;
+    font-size:26px;
     z-index:10;
 }
 
 /* main */
 #main {
     display:none;
-    padding-top:30px;
+    padding-top:25px;
 }
 
 /* heading */
 h1 {
     font-family:'Pacifico';
-    font-size:26px;
+    font-size:24px;
 }
 
 /* message */
@@ -62,38 +62,42 @@ button {
     font-weight:bold;
 }
 
-/* 🔥 PERFECT CROPPED SLIDESHOW */
+/* 🔥 PERFECT SLIDESHOW */
 #slideshow {
     width:80%;
     max-width:300px;
-    height:400px;
+    height:420px;
     margin:20px auto;
     position:relative;
     overflow:hidden;
     border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
 #slideshow img {
     width:100%;
     height:100%;
-    object-fit:cover; /* 🔥 FIXED */
+    object-fit:cover;
+
+    /* 🔥 FACE FOCUS FIX */
+    object-position:center 30%;
+
     position:absolute;
     opacity:0;
     transform:scale(1);
     transition:opacity 1s ease, transform 3s ease;
 }
 
-/* confetti */
+/* 🔥 STRONG CONFETTI */
 .confetti {
     position:fixed;
-    width:6px;
-    height:6px;
+    top:-10px;
+    border-radius:50%;
     animation:fall linear infinite;
 }
 
 @keyframes fall {
-    to { transform:translateY(100vh); }
+    to { transform:translateY(110vh) rotate(360deg); }
 }
 
 /* popup */
@@ -169,14 +173,14 @@ function startAudio(){
     let song=document.getElementById("song");
     let beat=document.getElementById("heartbeat");
 
-    song.currentTime=75; // your timing
+    song.currentTime=75;
     song.volume=1;
-    beat.volume=0.4;
+    beat.volume=0.5;
 
     song.play().catch(()=>{});
     beat.play().catch(()=>{});
 
-    /* fade out */
+    /* smooth fade */
     setTimeout(()=>{
         let fade=setInterval(()=>{
             if(song.volume>0.05){
@@ -239,19 +243,28 @@ function startSlideshow(){
     },3000);
 }
 
-/* CONFETTI */
+/* 🔥 STRONG CONFETTI */
 function startConfetti(){
     setInterval(()=>{
-        for(let i=0;i<20;i++){
+        for(let i=0;i<40;i++){
             let c=document.createElement("div");
             c.className="confetti";
+
             c.style.left=Math.random()*100+"vw";
+
+            let size=6+Math.random()*6;
+            c.style.width=size+"px";
+            c.style.height=size+"px";
+
             c.style.background=`hsl(${Math.random()*360},100%,60%)`;
-            c.style.animationDuration=(2+Math.random()*2)+"s";
+
+            c.style.animationDuration=(1+Math.random()*2)+"s";
+
             document.body.appendChild(c);
-            setTimeout(()=>c.remove(),4000);
+
+            setTimeout(()=>c.remove(),3000);
         }
-    },200);
+    },150);
 }
 
 /* POPUP */
@@ -275,6 +288,7 @@ function endExperience(){
             font-size:35px;
             background:linear-gradient(135deg,#ffc1cc,#e0bbff);
             color:white;
+            text-shadow:0 0 10px white,0 0 20px pink;
         ">
             I LOVE YOU 💖
             <span style="font-size:18px;margin-top:10px;">— Aditi ✨</span>
