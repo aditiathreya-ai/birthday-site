@@ -33,13 +33,13 @@ body {
 /* main */
 #main {
     display:none;
-    padding-top:40px;
+    padding-top:30px;
 }
 
-/* responsive text */
+/* heading */
 h1 {
     font-family:'Pacifico';
-    font-size:28px;
+    font-size:26px;
 }
 
 /* message */
@@ -48,7 +48,7 @@ h1 {
     margin:auto;
     line-height:1.6;
     white-space:pre-line;
-    font-size:16px;
+    font-size:15px;
 }
 
 /* button */
@@ -62,19 +62,22 @@ button {
     font-weight:bold;
 }
 
-/* slideshow */
+/* 🔥 PERFECT CROPPED SLIDESHOW */
 #slideshow {
-    margin-top:20px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    width:80%;
+    max-width:300px;
+    height:400px;
+    margin:20px auto;
     position:relative;
+    overflow:hidden;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
 #slideshow img {
-    width:80%;
-    max-width:280px;
-    border-radius:15px;
+    width:100%;
+    height:100%;
+    object-fit:cover; /* 🔥 FIXED */
     position:absolute;
     opacity:0;
     transform:scale(1);
@@ -145,11 +148,10 @@ button {
 
 <audio id="song" src="song.mp3"></audio>
 <audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-01a.mp3"></audio>
-<audio id="voice" src="voice.mp3"></audio>
 
 <script>
 
-/* START ON TAP */
+/* START */
 document.addEventListener("click", startExperience, { once:true });
 
 function startExperience(){
@@ -162,22 +164,17 @@ function startExperience(){
     typeMessage();
 }
 
-/* AUDIO CONTROL */
+/* AUDIO */
 function startAudio(){
     let song=document.getElementById("song");
     let beat=document.getElementById("heartbeat");
 
-    song.currentTime=75;
+    song.currentTime=75; // your timing
     song.volume=1;
     beat.volume=0.4;
 
     song.play().catch(()=>{});
     beat.play().catch(()=>{});
-
-    /* voice timing */
-    setTimeout(()=>{
-        document.getElementById("voice").play().catch(()=>{});
-    },5000);
 
     /* fade out */
     setTimeout(()=>{
@@ -208,8 +205,6 @@ let i=0;
 function typeMessage(){
     let speed=30;
 
-    setTimeout(()=>{ speed=60; },5000);
-
     function type(){
         if(i<text.length){
             document.getElementById("message").innerHTML+=text.charAt(i);
@@ -230,7 +225,6 @@ function startSlideshow(){
 
     let interval=setInterval(()=>{
         images[index].style.opacity=0;
-        images[index].style.transform="scale(1)";
 
         index++;
 
@@ -248,7 +242,7 @@ function startSlideshow(){
 /* CONFETTI */
 function startConfetti(){
     setInterval(()=>{
-        for(let i=0;i<15;i++){
+        for(let i=0;i<20;i++){
             let c=document.createElement("div");
             c.className="confetti";
             c.style.left=Math.random()*100+"vw";
@@ -257,7 +251,7 @@ function startConfetti(){
             document.body.appendChild(c);
             setTimeout(()=>c.remove(),4000);
         }
-    },250);
+    },200);
 }
 
 /* POPUP */
@@ -281,7 +275,6 @@ function endExperience(){
             font-size:35px;
             background:linear-gradient(135deg,#ffc1cc,#e0bbff);
             color:white;
-            text-shadow:0 0 10px white,0 0 20px pink;
         ">
             I LOVE YOU 💖
             <span style="font-size:18px;margin-top:10px;">— Aditi ✨</span>
