@@ -10,8 +10,8 @@
 <style>
 body {
     margin:0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ffc1cc, #ffe4e1, #e0bbff);
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#ffc1cc,#ffe4e1,#e0bbff);
     text-align:center;
     color:white;
     overflow:hidden;
@@ -27,61 +27,70 @@ body {
     align-items:center;
     font-family:'Pacifico';
     font-size:28px;
+    z-index:10;
 }
 
 /* main */
 #main {
     display:none;
-    padding-top:60px;
+    padding-top:40px;
 }
 
+/* responsive text */
 h1 {
     font-family:'Pacifico';
-    font-size:40px;
+    font-size:28px;
 }
 
-p {
-    max-width:600px;
+/* message */
+#message {
+    max-width:90%;
     margin:auto;
     line-height:1.6;
     white-space:pre-line;
+    font-size:16px;
 }
 
+/* button */
 button {
-    margin-top:20px;
-    padding:12px 25px;
+    margin-top:15px;
+    padding:10px 20px;
     border:none;
     border-radius:20px;
     background:white;
     color:#ff4d6d;
     font-weight:bold;
-    cursor:pointer;
 }
 
-/* images */
+/* slideshow */
 #slideshow {
-    margin-top:30px;
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
 }
 
 #slideshow img {
-    width:250px;
+    width:80%;
+    max-width:280px;
     border-radius:15px;
-    display:none;
+    position:absolute;
+    opacity:0;
+    transform:scale(1);
+    transition:opacity 1s ease, transform 3s ease;
 }
 
 /* confetti */
 .confetti {
     position:fixed;
-    width:8px;
-    height:8px;
-    background:red;
+    width:6px;
+    height:6px;
     animation:fall linear infinite;
 }
 
 @keyframes fall {
-    to {
-        transform:translateY(100vh);
-    }
+    to { transform:translateY(100vh); }
 }
 
 /* popup */
@@ -90,7 +99,7 @@ button {
     position:fixed;
     top:50%;
     left:50%;
-    transform:translate(-50%, -50%);
+    transform:translate(-50%,-50%);
     background:white;
     color:#ff4d6d;
     padding:20px;
@@ -98,6 +107,15 @@ button {
     font-weight:bold;
 }
 
+/* ending */
+.fadeIn {
+    animation:fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+    from{opacity:0;}
+    to{opacity:1;}
+}
 </style>
 </head>
 
@@ -106,7 +124,7 @@ button {
 <div id="intro">Tap anywhere 💖</div>
 
 <div id="main">
-    <h1>Happpyyy Birthdayyy Pondatti 💖✨</h1>
+    <h1>Happy Birthday My Pondatti 💖✨</h1>
 
     <p id="message"></p>
 
@@ -126,86 +144,149 @@ button {
 <div id="popup">I LOVE YOU SO MUCH 💖</div>
 
 <audio id="song" src="song.mp3"></audio>
+<audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-01a.mp3"></audio>
+<audio id="voice" src="voice.mp3"></audio>
 
 <script>
 
-/* START EXPERIENCE */
-document.addEventListener("click", function () {
-    startExperience();
-}, { once: true });
+/* START ON TAP */
+document.addEventListener("click", startExperience, { once:true });
 
-function startExperience() {
-    document.getElementById("intro").style.display = "none";
-    document.getElementById("main").style.display = "block";
+function startExperience(){
+    document.getElementById("intro").style.display="none";
+    document.getElementById("main").style.display="block";
 
-    let audio = document.getElementById("song");
-    audio.currentTime = 75; // 1:15
-    audio.play().catch(()=>{});
-
-    setTimeout(()=>{
-        audio.pause();
-    },16000); // till 1:31
-
+    startAudio();
     startSlideshow();
     startConfetti();
     typeMessage();
 }
 
-/* TYPE MESSAGE */
-let text = `Happy Birthday to the girl who lights up everyone's life just by being in it ✨💫
+/* AUDIO CONTROL */
+function startAudio(){
+    let song=document.getElementById("song");
+    let beat=document.getElementById("heartbeat");
+
+    song.currentTime=75;
+    song.volume=1;
+    beat.volume=0.4;
+
+    song.play().catch(()=>{});
+    beat.play().catch(()=>{});
+
+    /* voice timing */
+    setTimeout(()=>{
+        document.getElementById("voice").play().catch(()=>{});
+    },5000);
+
+    /* fade out */
+    setTimeout(()=>{
+        let fade=setInterval(()=>{
+            if(song.volume>0.05){
+                song.volume-=0.05;
+                beat.volume-=0.05;
+            } else {
+                song.pause();
+                beat.pause();
+                clearInterval(fade);
+            }
+        },200);
+    },14000);
+}
+
+/* MESSAGE */
+let text=`Happy Birthday to the girl who lights up everyone's life just by being in it ✨💫
+
 From school drama to adulting, you've come a long way. I'm so proud of you 😭💖
+
 You're my safe place, my forever favourite. I LOVE YOU TO THE MOON AND BACK 💕
-It's always gonna be us over anyone and everyone 💞
 
-— Aditi 💖`;
+It's always gonna be us over anyone and everyone 💞`;
 
-let i = 0;
-function typeMessage() {
-    if (i < text.length) {
-        document.getElementById("message").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeMessage, 30);
+let i=0;
+
+function typeMessage(){
+    let speed=30;
+
+    setTimeout(()=>{ speed=60; },5000);
+
+    function type(){
+        if(i<text.length){
+            document.getElementById("message").innerHTML+=text.charAt(i);
+            i++;
+            setTimeout(type,speed);
+        }
     }
+    type();
 }
 
 /* SLIDESHOW */
-let images = document.querySelectorAll("#slideshow img");
-let index = 0;
+let images=document.querySelectorAll("#slideshow img");
+let index=0;
 
-function startSlideshow() {
-    images[0].style.display = "block";
+function startSlideshow(){
+    images[0].style.opacity=1;
+    images[0].style.transform="scale(1.1)";
 
-    setInterval(()=>{
-        images[index].style.display="none";
-        index = (index+1)%images.length;
-        images[index].style.display="block";
-    },2000);
+    let interval=setInterval(()=>{
+        images[index].style.opacity=0;
+        images[index].style.transform="scale(1)";
+
+        index++;
+
+        if(index>=images.length){
+            clearInterval(interval);
+            endExperience();
+            return;
+        }
+
+        images[index].style.opacity=1;
+        images[index].style.transform="scale(1.1)";
+    },3000);
 }
 
 /* CONFETTI */
-function startConfetti() {
+function startConfetti(){
     setInterval(()=>{
-        for(let i=0;i<10;i++){
-            let confetti = document.createElement("div");
-            confetti.className="confetti";
-            confetti.style.left=Math.random()*100+"vw";
-            confetti.style.background=`hsl(${Math.random()*360},100%,70%)`;
-            confetti.style.animationDuration=(2+Math.random()*3)+"s";
-            document.body.appendChild(confetti);
-
-            setTimeout(()=>confetti.remove(),5000);
+        for(let i=0;i<15;i++){
+            let c=document.createElement("div");
+            c.className="confetti";
+            c.style.left=Math.random()*100+"vw";
+            c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+            c.style.animationDuration=(2+Math.random()*2)+"s";
+            document.body.appendChild(c);
+            setTimeout(()=>c.remove(),4000);
         }
-    },300);
+    },250);
 }
 
-/* SURPRISE */
-function showSurprise() {
-    let pop = document.getElementById("popup");
-    pop.style.display="block";
+/* POPUP */
+function showSurprise(){
+    let p=document.getElementById("popup");
+    p.style.display="block";
+    setTimeout(()=>p.style.display="none",3000);
+}
 
+/* END */
+function endExperience(){
     setTimeout(()=>{
-        pop.style.display="none";
-    },3000);
+        document.body.innerHTML=`
+        <div class="fadeIn" style="
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            font-family:Pacifico;
+            font-size:35px;
+            background:linear-gradient(135deg,#ffc1cc,#e0bbff);
+            color:white;
+            text-shadow:0 0 10px white,0 0 20px pink;
+        ">
+            I LOVE YOU 💖
+            <span style="font-size:18px;margin-top:10px;">— Aditi ✨</span>
+        </div>`;
+    },2000);
 }
 
 </script>
