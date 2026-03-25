@@ -34,15 +34,15 @@ body {
 #main {
     display:none;
     padding-top:25px;
+    position:relative;
+    z-index:2; /* text above confetti */
 }
 
-/* heading */
 h1 {
     font-family:'Pacifico';
     font-size:24px;
 }
 
-/* message */
 #message {
     max-width:90%;
     margin:auto;
@@ -62,7 +62,7 @@ button {
     font-weight:bold;
 }
 
-/* 🔥 PERFECT SLIDESHOW */
+/* slideshow */
 #slideshow {
     width:80%;
     max-width:300px;
@@ -78,22 +78,20 @@ button {
     width:100%;
     height:100%;
     object-fit:cover;
-
-    /* 🔥 FACE FOCUS FIX */
-    object-position:center 30%;
-
+    object-position:center 20%; /* 🔥 face fix */
     position:absolute;
     opacity:0;
-    transform:scale(1);
-    transition:opacity 1s ease, transform 3s ease;
+    transform:scale(1); /* 🔥 no zoom crop */
+    transition:opacity 1s ease;
 }
 
-/* 🔥 STRONG CONFETTI */
+/* confetti */
 .confetti {
     position:fixed;
     top:-10px;
     border-radius:50%;
     animation:fall linear infinite;
+    z-index:1;
 }
 
 @keyframes fall {
@@ -164,7 +162,6 @@ function startExperience(){
 
     startAudio();
     startSlideshow();
-    startConfetti();
     typeMessage();
 }
 
@@ -180,7 +177,6 @@ function startAudio(){
     song.play().catch(()=>{});
     beat.play().catch(()=>{});
 
-    /* smooth fade */
     setTimeout(()=>{
         let fade=setInterval(()=>{
             if(song.volume>0.05){
@@ -207,13 +203,11 @@ It's always gonna be us over anyone and everyone 💞`;
 let i=0;
 
 function typeMessage(){
-    let speed=30;
-
     function type(){
         if(i<text.length){
             document.getElementById("message").innerHTML+=text.charAt(i);
             i++;
-            setTimeout(type,speed);
+            setTimeout(type,30);
         }
     }
     type();
@@ -225,7 +219,6 @@ let index=0;
 
 function startSlideshow(){
     images[0].style.opacity=1;
-    images[0].style.transform="scale(1.1)";
 
     let interval=setInterval(()=>{
         images[index].style.opacity=0;
@@ -239,39 +232,38 @@ function startSlideshow(){
         }
 
         images[index].style.opacity=1;
-        images[index].style.transform="scale(1.1)";
     },3000);
 }
 
-/* 🔥 STRONG CONFETTI */
-function startConfetti(){
-    setInterval(()=>{
-        for(let i=0;i<40;i++){
-            let c=document.createElement("div");
-            c.className="confetti";
-
-            c.style.left=Math.random()*100+"vw";
-
-            let size=6+Math.random()*6;
-            c.style.width=size+"px";
-            c.style.height=size+"px";
-
-            c.style.background=`hsl(${Math.random()*360},100%,60%)`;
-
-            c.style.animationDuration=(1+Math.random()*2)+"s";
-
-            document.body.appendChild(c);
-
-            setTimeout(()=>c.remove(),3000);
-        }
-    },150);
-}
-
-/* POPUP */
+/* 🎉 CONFETTI BURST (ONLY ON CLICK) */
 function showSurprise(){
     let p=document.getElementById("popup");
     p.style.display="block";
+
+    burstConfetti(); // 🔥 trigger here
+
     setTimeout(()=>p.style.display="none",3000);
+}
+
+function burstConfetti(){
+    for(let i=0;i<120;i++){ // 🔥 burst effect
+        let c=document.createElement("div");
+        c.className="confetti";
+
+        c.style.left=Math.random()*100+"vw";
+
+        let size=5+Math.random()*6;
+        c.style.width=size+"px";
+        c.style.height=size+"px";
+
+        c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+
+        c.style.animationDuration=(1+Math.random()*2)+"s";
+
+        document.body.appendChild(c);
+
+        setTimeout(()=>c.remove(),3000);
+    }
 }
 
 /* END */
@@ -288,7 +280,6 @@ function endExperience(){
             font-size:35px;
             background:linear-gradient(135deg,#ffc1cc,#e0bbff);
             color:white;
-            text-shadow:0 0 10px white,0 0 20px pink;
         ">
             I LOVE YOU 💖
             <span style="font-size:18px;margin-top:10px;">— Aditi ✨</span>
